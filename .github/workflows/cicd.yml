@@ -21,6 +21,6 @@ jobs:
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         run: |
             ./gradlew jib \
-              -DjibUsername="$DOCKER_USERNAME" \
+              -DDDOCKER_USERNAME="$DOCKER_USERNAME" \
               -Djib.to.auth.username="$DOCKER_USERNAME" \
               -Djib.to.auth.password="$DOCKER_PASSWORD"
