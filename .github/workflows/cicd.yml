@@ -13,7 +13,14 @@ jobs:
           java-version: '25'
           distribution: 'temurin'
           cache: 'gradle'
-      - name: Grant Execute Permission for Gradlew
+      - name: Execute Permission for Gradlew
         run: chmod +x gradlew
-      - name: Clean build
-        run: ./gradlew clean build
+      - name: Build and Push Image using Jib
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        run: |
+            ./gradlew jib \
+              -DjibUsername="$DOCKER_USERNAME" \
+              -Djib.to.auth.username="$DOCKER_USERNAME" \
+              -Djib.to.auth.password="$DOCKER_PASSWORD"

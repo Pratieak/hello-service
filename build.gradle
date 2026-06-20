@@ -2,6 +2,7 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '4.1.0'
 	id 'io.spring.dependency-management' version '1.1.7'
+	id 'com.google.cloud.tools.jib' version '3.5.3'
 }
 
 group = 'com.example.hello'
@@ -24,6 +25,12 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-webmvc-test'
 }
 
-tasks.named('test') {
-	useJUnitPlatform()
+jib {
+	from {
+		image = 'eclipse-temurin:25-jdk-alpine'
+	}
+	to {
+		def dockerUser = System.getProperty('DOCKER_USERNAME') ?: 'test'
+		image = "${dockerUser}/hello-service:v1"
+	}
 }
